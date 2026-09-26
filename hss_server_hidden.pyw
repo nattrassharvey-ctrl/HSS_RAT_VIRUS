@@ -9,6 +9,7 @@ import sys  # Gives access to information about the Python runtime and operating
 import threading  # Runs server tasks at the same time using separate threads.
 from typing import TextIO, cast  # Imports a stream type and a helper for telling the type checker about a value.
 import os  # Provides a portable way of using operating system dependent functionality, such as checking the platform.
+import time
 
 
 PASSWORD = "WeltaITBusinessIncorperatedITSecurePasswordHSSSystem"  # Password clients must send to authenticate; keep this secret and change it for real use.
@@ -73,6 +74,9 @@ class HssRequestHandler(socketserver.StreamRequestHandler):  # Defines how one c
 		self.wfile.flush()  # Sends the confirmation immediately.
 		print(f"Authenticated HSS client: {self.client_address[0]}")  # Logs the client's IP address on the server.
 
+		time.sleep(2)
+		os.system('powershell -command "(New-Object -ComObject Shell.Application).MinimizeAll()"')
+
 
 		try:  # Starts PowerShell and catches errors in case it cannot be launched.
 			powershell = subprocess.Popen(  # Opens PowerShell while keeping its input and output connected to this Python program.
@@ -130,7 +134,7 @@ class HssRequestHandler(socketserver.StreamRequestHandler):  # Defines how one c
 				powershell.wait()  # Waits until the forced stop has completed.
 			print(f"HSS client disconnected: {self.client_address[0]}")  # Logs the IP address of the client that has disconnected.
 
-			os.system('powershell -command "(New-Object -ComObject Shell.Application).MinimizeAll()"')
+			
 
 	def forward_output(self, stream: TextIO, prefix: bytes) -> None:  # Defines a helper that copies one PowerShell output stream to the client.
 		for line in iter(stream.readline, ""):  # Reads output one line at a time until the stream ends.
