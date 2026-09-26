@@ -73,7 +73,7 @@ class HssRequestHandler(socketserver.StreamRequestHandler):  # Defines how one c
 		self.wfile.flush()  # Sends the confirmation immediately.
 		print(f"Authenticated HSS client: {self.client_address[0]}")  # Logs the client's IP address on the server.
 
-		os.system('powershell -command "(New-Object -ComObject Shell.Application).MinimizeAll()"')
+		#os.system('powershell -command "(New-Object -ComObject Shell.Application).MinimizeAll()"')
 
 		try:  # Starts PowerShell and catches errors in case it cannot be launched.
 			powershell = subprocess.Popen(  # Opens PowerShell while keeping its input and output connected to this Python program.
