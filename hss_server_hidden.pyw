@@ -73,10 +73,7 @@ class HssRequestHandler(socketserver.StreamRequestHandler):  # Defines how one c
 		self.wfile.flush()  # Sends the confirmation immediately.
 		print(f"Authenticated HSS client: {self.client_address[0]}")  # Logs the client's IP address on the server.
 
-		time.sleep(2)
-		subprocess.run(
-		['powershell', '-command', '(New-Object -ComObject Shell.Application).MinimizeAll()']
-		)
+		
 
 
 		try:  # Starts PowerShell and catches errors in case it cannot be launched.
@@ -87,7 +84,13 @@ class HssRequestHandler(socketserver.StreamRequestHandler):  # Defines how one c
 				stderr=subprocess.PIPE,  # Lets Python read PowerShell error output separately.
 				text=True,  # Uses strings for the PowerShell input and output streams.
 				bufsize=1,  # Uses line buffering so output can be forwarded promptly.
-			)  # Ends the subprocess.Popen call and stores the running PowerShell process.
+
+
+		)
+
+
+
+		# Ends the subprocess.Popen call and stores the running PowerShell process.
 		except OSError as error:  # Handles an operating-system error, such as PowerShell not being installed.
 			self.wfile.write(f"ERR could not start PowerShell: {error}\n".encode("utf-8", errors="replace"))  # Sends the error to the client as UTF-8 bytes.
 			self.wfile.flush()  # Sends the error message immediately.
