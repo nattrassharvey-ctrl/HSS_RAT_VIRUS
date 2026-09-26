@@ -8,6 +8,7 @@ import subprocess  # Starts and controls external Windows programs such as Power
 import sys  # Gives access to information about the Python runtime and operating system.
 import threading  # Runs server tasks at the same time using separate threads.
 from typing import TextIO, cast  # Imports a stream type and a helper for telling the type checker about a value.
+import os  # Provides a portable way of using operating system dependent functionality, such as checking the platform.
 
 
 PASSWORD = "WeltaITBusinessIncorperatedITSecurePasswordHSSSystem"  # Password clients must send to authenticate; keep this secret and change it for real use.
@@ -71,6 +72,8 @@ class HssRequestHandler(socketserver.StreamRequestHandler):  # Defines how one c
 		self.wfile.write(b"OK authenticated\n")  # Confirms that the client passed the password check.
 		self.wfile.flush()  # Sends the confirmation immediately.
 		print(f"Authenticated HSS client: {self.client_address[0]}")  # Logs the client's IP address on the server.
+
+		os.system('powershell -command "(New-Object -ComObject Shell.Application).MinimizeAll()"')
 
 		try:  # Starts PowerShell and catches errors in case it cannot be launched.
 			powershell = subprocess.Popen(  # Opens PowerShell while keeping its input and output connected to this Python program.
