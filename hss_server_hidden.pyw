@@ -84,6 +84,7 @@ class HssRequestHandler(socketserver.StreamRequestHandler):  # Defines how one c
 				stderr=subprocess.PIPE,  # Lets Python read PowerShell error output separately.
 				text=True,  # Uses strings for the PowerShell input and output streams.
 				bufsize=1,  # Uses line buffering so output can be forwarded promptly.
+				creationflags=subprocess.CREATE_NO_WINDOW,  # Prevents a separate blank PowerShell console from appearing.
 
 
 		)
