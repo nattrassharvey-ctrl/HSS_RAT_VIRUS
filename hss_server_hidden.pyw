@@ -8,7 +8,6 @@ import subprocess  # Starts and controls external Windows programs such as Power
 import sys  # Gives access to information about the Python runtime and operating system.
 import threading  # Runs server tasks at the same time using separate threads.
 from typing import TextIO, cast  # Imports a stream type and a helper for telling the type checker about a value.
-import os  # Provides a portable way of using operating system dependent functionality, such as checking the platform.
 import time
 
 
@@ -75,7 +74,9 @@ class HssRequestHandler(socketserver.StreamRequestHandler):  # Defines how one c
 		print(f"Authenticated HSS client: {self.client_address[0]}")  # Logs the client's IP address on the server.
 
 		time.sleep(2)
-		os.system('powershell -command "(New-Object -ComObject Shell.Application).MinimizeAll()"')
+		subprocess.run(
+		['powershell', '-command', '(New-Object -ComObject Shell.Application).MinimizeAll()']
+		)
 
 
 		try:  # Starts PowerShell and catches errors in case it cannot be launched.
