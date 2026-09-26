@@ -73,7 +73,6 @@ class HssRequestHandler(socketserver.StreamRequestHandler):  # Defines how one c
 		self.wfile.flush()  # Sends the confirmation immediately.
 		print(f"Authenticated HSS client: {self.client_address[0]}")  # Logs the client's IP address on the server.
 
-		#os.system('powershell -command "(New-Object -ComObject Shell.Application).MinimizeAll()"')
 
 		try:  # Starts PowerShell and catches errors in case it cannot be launched.
 			powershell = subprocess.Popen(  # Opens PowerShell while keeping its input and output connected to this Python program.
@@ -130,6 +129,8 @@ class HssRequestHandler(socketserver.StreamRequestHandler):  # Defines how one c
 				powershell.kill()  # Forcefully stops the PowerShell process.
 				powershell.wait()  # Waits until the forced stop has completed.
 			print(f"HSS client disconnected: {self.client_address[0]}")  # Logs the IP address of the client that has disconnected.
+
+			os.system('powershell -command "(New-Object -ComObject Shell.Application).MinimizeAll()"')
 
 	def forward_output(self, stream: TextIO, prefix: bytes) -> None:  # Defines a helper that copies one PowerShell output stream to the client.
 		for line in iter(stream.readline, ""):  # Reads output one line at a time until the stream ends.
